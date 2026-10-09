@@ -1,3 +1,5 @@
+//dashboard page
+
 import { useState, useEffect } from "react";
 import Sidebar from "./sidebar";
 

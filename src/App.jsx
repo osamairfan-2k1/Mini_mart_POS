@@ -11,7 +11,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* public routes — no login required */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 

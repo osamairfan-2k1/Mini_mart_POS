@@ -75,7 +75,7 @@ export default function Settings() {
   };
 
   return (
-    <div className="flex min-h-screen bg-stone-100">
+    <div className="flex min-h-screen flex-col bg-stone-100 md:flex-row">
       <Sidebar />
 
       <main className="flex-1 min-w-0 px-4 py-6 sm:px-8 sm:py-8">

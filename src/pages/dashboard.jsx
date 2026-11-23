@@ -1,5 +1,3 @@
-//dashboard page
-
 import { useState, useEffect } from "react";
 import Sidebar from "./sidebar";
 
@@ -52,13 +50,13 @@ export default function Dashboard() {
   const maxRevenue = data ? Math.max(...data.week.map((d) => d.revenue), 1) : 1;
 
   return (
-    <div className="flex min-h-screen bg-stone-100">
+    <div className="flex min-h-screen flex-col bg-stone-100 md:flex-row">
       <Sidebar />
 
       <main className="flex-1 min-w-0 px-4 py-6 sm:px-8 sm:py-8">
         <div className="max-w-6xl mx-auto">
           <header className="mb-6">
-            <h1 className="text-3xl font-bold tracking-tight text-stone-900">Dashboard</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">Dashboard</h1>
             <p className="mt-1 text-stone-600">How your mart is doing today.</p>
           </header>
 
@@ -75,27 +73,27 @@ export default function Dashboard() {
               <>
                 {/* Today */}
                 <section className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
-                  <div className="rounded-xl border border-stone-200 bg-white px-5 py-4">
+                  <div className="rounded-xl border border-stone-200 bg-white px-4 py-4 sm:px-5">
                     <p className="text-sm text-stone-500">Today's sales</p>
-                    <p className="mt-1 text-2xl font-semibold text-stone-900">
+                    <p className="mt-1 text-xl font-semibold text-stone-900 sm:text-2xl">
                       {formatRs(data.today.revenue)}
                     </p>
                   </div>
-                  <div className="rounded-xl border border-stone-200 bg-white px-5 py-4">
+                  <div className="rounded-xl border border-stone-200 bg-white px-4 py-4 sm:px-5">
                     <p className="text-sm text-stone-500">Today's profit</p>
-                    <p className="mt-1 text-2xl font-semibold text-emerald-700">
+                    <p className="mt-1 text-xl font-semibold text-emerald-700 sm:text-2xl">
                       {formatRs(data.today.profit)}
                     </p>
                   </div>
-                  <div className="rounded-xl border border-stone-200 bg-white px-5 py-4">
+                  <div className="rounded-xl border border-stone-200 bg-white px-4 py-4 sm:px-5">
                     <p className="text-sm text-stone-500">Orders</p>
-                    <p className="mt-1 text-2xl font-semibold text-stone-900">
+                    <p className="mt-1 text-xl font-semibold text-stone-900 sm:text-2xl">
                       {data.today.sales_count}
                     </p>
                   </div>
-                  <div className="rounded-xl border border-stone-200 bg-white px-5 py-4">
+                  <div className="rounded-xl border border-stone-200 bg-white px-4 py-4 sm:px-5">
                     <p className="text-sm text-stone-500">Items sold</p>
-                    <p className="mt-1 text-2xl font-semibold text-stone-900">
+                    <p className="mt-1 text-xl font-semibold text-stone-900 sm:text-2xl">
                       {data.today.items_sold}
                     </p>
                   </div>
@@ -103,9 +101,9 @@ export default function Dashboard() {
 
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                   {/* Last 7 days */}
-                  <section className="rounded-xl border border-stone-200 bg-white p-5 lg:col-span-2">
+                  <section className="rounded-xl border border-stone-200 bg-white p-4 sm:p-5 lg:col-span-2">
                     <h2 className="text-base font-semibold text-stone-900">Last 7 days</h2>
-                    <div className="mt-4 flex h-40 items-end gap-3">
+                    <div className="mt-4 flex h-40 items-end gap-1.5 sm:gap-3">
                       {data.week.map((d) => (
                         <div key={d.day} className="flex h-full flex-1 flex-col items-center justify-end">
                           <span className="mb-1 text-[10px] text-stone-400">
@@ -124,7 +122,7 @@ export default function Dashboard() {
                   </section>
 
                   {/* Low stock */}
-                  <section className="rounded-xl border border-stone-200 bg-white p-5">
+                  <section className="rounded-xl border border-stone-200 bg-white p-4 sm:p-5">
                     <h2 className="text-base font-semibold text-stone-900">Low stock</h2>
                     {data.low_stock.length === 0 ? (
                       <p className="mt-4 text-sm text-stone-500">Everything is well stocked.</p>
@@ -144,13 +142,13 @@ export default function Dashboard() {
                 </div>
 
                 {/* Recent sales */}
-                <section className="mt-6 rounded-xl border border-stone-200 bg-white p-5">
+                <section className="mt-6 rounded-xl border border-stone-200 bg-white p-4 sm:p-5">
                   <h2 className="text-base font-semibold text-stone-900">Recent sales</h2>
                   {data.recent.length === 0 ? (
                     <p className="mt-4 text-sm text-stone-500">No sales yet. Complete a sale to see it here.</p>
                   ) : (
                     <div className="mt-4 overflow-x-auto">
-                      <table className="w-full text-left text-sm">
+                      <table className="w-full min-w-[520px] text-left text-sm">
                         <thead>
                           <tr className="border-b border-stone-200 text-stone-500">
                             <th className="py-2 pr-4 font-medium">Sale</th>

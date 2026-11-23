@@ -136,7 +136,8 @@ export default function Products() {
     setSubmitting(true);
 
     try {
-      const token = localStorage.getItem("token");
+      // fixed: login stores the token in sessionStorage
+      const token = sessionStorage.getItem("token");
       const res = await fetch("https://martpos.infinityfree.me/backend/addproduct.php", {
         method: "POST",
         headers: {
@@ -193,7 +194,8 @@ export default function Products() {
     setDeletingId(product.id);
 
     try {
-      const token = localStorage.getItem("token");
+      // fixed: login stores the token in sessionStorage
+      const token = sessionStorage.getItem("token");
       const res = await fetch("https://martpos.infinityfree.me/backend/deleteproduct.php", {
         method: "POST",
         headers: {
@@ -224,7 +226,7 @@ export default function Products() {
   }
 
   return (
-    <div className="flex min-h-screen bg-stone-100">
+    <div className="flex min-h-screen flex-col bg-stone-100 md:flex-row">
       <Sidebar />
 
       <main className="flex-1 min-w-0 px-4 py-6 sm:px-8 sm:py-8">
@@ -232,7 +234,7 @@ export default function Products() {
           {/* Header */}
           <header className="mb-6 flex items-start justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-stone-900">
+              <h1 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">
                 Products
               </h1>
               <p className="mt-1 text-stone-600">
@@ -431,7 +433,10 @@ export default function Products() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/40 px-4"
           onClick={closeAddModal}
         >
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-xl bg-white p-6 shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-stone-900">Add Product</h2>
               <button type="button" onClick={closeAddModal} className="text-stone-400 hover:text-stone-600">

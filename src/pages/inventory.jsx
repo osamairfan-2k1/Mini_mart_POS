@@ -193,7 +193,7 @@ export default function Inventory() {
   }
 
   return (
-    <div className="flex min-h-screen bg-stone-100">
+    <div className="flex min-h-screen flex-col bg-stone-100 md:flex-row">
       <Sidebar />
 
       <main className="flex-1 min-w-0 px-4 py-6 sm:px-8 sm:py-8">
@@ -201,7 +201,7 @@ export default function Inventory() {
           {/* Header */}
           <header className="mb-6 flex items-start justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-stone-900">Inventory</h1>
+              <h1 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">Inventory</h1>
               <p className="mt-1 text-stone-600">Manage your mart's stock and prices from here.</p>
             </div>
             <button
@@ -261,7 +261,7 @@ export default function Inventory() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm text-stone-900 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/30"
+                className="w-full sm:w-auto rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm text-stone-900 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/30"
               >
                 <option value="All">All categories</option>
                 {categories.map((c) => (
@@ -315,8 +315,8 @@ export default function Inventory() {
               <p className="mt-1 text-stone-600">Try a different search or filter.</p>
             </div>
           ) : (
-            <div className="rounded-xl border border-stone-200 bg-white overflow-hidden">
-              <table className="w-full text-sm">
+            <div className="rounded-xl border border-stone-200 bg-white overflow-x-auto">
+              <table className="w-full min-w-[640px] text-sm">
                 <thead>
                   <tr className="border-b border-stone-200 bg-stone-50">
                     <th className="text-left font-medium text-stone-500 px-5 py-3">Product</th>
@@ -369,7 +369,10 @@ export default function Inventory() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/40 px-4"
           onClick={closeAddModal}
         >
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-xl bg-white p-6 shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-stone-900">Add Product</h2>
               <button type="button" onClick={closeAddModal} className="text-stone-400 hover:text-stone-600">✕</button>

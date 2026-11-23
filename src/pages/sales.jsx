@@ -8,7 +8,7 @@ function ReceiptModal({ receipt, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/40 px-4 print:bg-transparent">
-      <div className="w-full max-w-sm bg-white rounded-xl shadow-lg p-6 print:shadow-none print:rounded-none">
+      <div className="w-full max-w-sm max-h-[90vh] overflow-y-auto bg-white rounded-xl shadow-lg p-6 print:shadow-none print:rounded-none print:max-h-none print:overflow-visible">
         <div className="text-center mb-4">
           <h2 className="text-lg font-bold text-stone-900">Mini Mart</h2>
           <p className="text-xs text-stone-500">{receipt.timestamp.toLocaleString()}</p>
@@ -89,7 +89,7 @@ export default function Sales() {
     fetchProducts();
   }, []);
 
-  // close the suggestion dropdown on outside click
+  // close the suggestion dropdown on outside click / tap
   useEffect(() => {
     function handleClick(e) {
       if (searchBoxRef.current && !searchBoxRef.current.contains(e.target)) {
@@ -97,7 +97,11 @@ export default function Sales() {
       }
     }
     document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener("touchstart", handleClick);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("touchstart", handleClick);
+    };
   }, []);
 
   const suggestions = useMemo(() => {
@@ -206,14 +210,14 @@ export default function Sales() {
   };
 
   return (
-    <div className="flex min-h-screen bg-stone-100">
+    <div className="flex min-h-screen flex-col bg-stone-100 md:flex-row">
       <Sidebar />
 
       <main className="flex-1 min-w-0 px-4 py-6 sm:px-8 sm:py-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <header className="mb-6">
-            <h1 className="text-3xl font-bold tracking-tight text-stone-900">Sales</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">Sales</h1>
             <p className="mt-1 text-stone-600">
               Search a product to add it, then complete the sale to generate a bill.
             </p>
@@ -281,13 +285,13 @@ export default function Sales() {
                         type="button"
                         onClick={() => !outOfStock && addToCart(product)}
                         disabled={outOfStock}
-                        className="w-full flex items-center justify-between px-4 py-2.5 text-left text-sm hover:bg-stone-50 disabled:opacity-40 disabled:cursor-not-allowed border-b border-stone-100 last:border-b-0"
+                        className="w-full flex flex-col items-start gap-0.5 sm:flex-row sm:items-center sm:justify-between px-4 py-2.5 text-left text-sm hover:bg-stone-50 disabled:opacity-40 disabled:cursor-not-allowed border-b border-stone-100 last:border-b-0"
                       >
                         <span>
                           <span className="font-medium text-stone-900">{product.name}</span>
                           <span className="ml-2 text-xs text-stone-500">{product.category || "Uncategorized"}</span>
                         </span>
-                        <span className="text-stone-600 shrink-0 ml-3">
+                        <span className="text-stone-600 shrink-0 sm:ml-3">
                           {formatRs(product.selling_price)} · {outOfStock ? "Out of stock" : `${product.stock_quantity} left`}
                         </span>
                       </button>
@@ -299,14 +303,14 @@ export default function Sales() {
           </div>
 
           {/* Bill table, styled like Inventory's table */}
-          <div className="rounded-xl border border-stone-200 bg-white overflow-hidden mb-6">
+          <div className="rounded-xl border border-stone-200 bg-white overflow-x-auto mb-6">
             {cartItems.length === 0 ? (
               <div className="px-6 py-14 text-center">
                 <p className="text-lg font-semibold text-stone-900">No items yet</p>
                 <p className="mt-1 text-stone-600">Search above to start building the bill.</p>
               </div>
             ) : (
-              <table className="w-full text-sm">
+              <table className="w-full min-w-[560px] text-sm">
                 <thead>
                   <tr className="border-b border-stone-200 bg-stone-50">
                     <th className="text-left font-medium text-stone-500 px-5 py-3">Product</th>
@@ -326,7 +330,7 @@ export default function Sales() {
                           <button
                             type="button"
                             onClick={() => updateQuantity(product.id, quantity - 1, product.stock_quantity)}
-                            className="w-6 h-6 rounded border border-stone-300 text-stone-600 hover:bg-stone-100"
+                            className="w-8 h-8 sm:w-6 sm:h-6 rounded border border-stone-300 text-stone-600 hover:bg-stone-100"
                           >
                             −
                           </button>
@@ -335,7 +339,7 @@ export default function Sales() {
                             type="button"
                             onClick={() => updateQuantity(product.id, quantity + 1, product.stock_quantity)}
                             disabled={quantity >= product.stock_quantity}
-                            className="w-6 h-6 rounded border border-stone-300 text-stone-600 hover:bg-stone-100 disabled:opacity-30"
+                            className="w-8 h-8 sm:w-6 sm:h-6 rounded border border-stone-300 text-stone-600 hover:bg-stone-100 disabled:opacity-30"
                           >
                             +
                           </button>
@@ -362,7 +366,7 @@ export default function Sales() {
 
           {/* Bill summary + checkout */}
           {cartItems.length > 0 && (
-            <div className="rounded-xl border border-stone-200 bg-white p-5 max-w-sm ml-auto">
+            <div className="rounded-xl border border-stone-200 bg-white p-5 w-full sm:max-w-sm sm:ml-auto">
               <div className="flex justify-between text-lg font-bold text-stone-900 mb-4">
                 <span>Total</span>
                 <span>{formatRs(total)}</span>

@@ -69,7 +69,7 @@ export default function Sales() {
   const fetchProducts = async () => {
     try {
       const token = sessionStorage.getItem("token");
-      const res = await fetch("http://localhost/backend/getproducts.php", {
+      const res = await fetch("https://martpos.infinityfree.me/backend/getproducts.php", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -162,7 +162,7 @@ export default function Sales() {
     setSubmitting(true);
     try {
       const token = sessionStorage.getItem("token");
-      const res = await fetch("http://localhost/backend/create_sale.php", {
+      const res = await fetch("https://martpos.infinityfree.me/backend/create_sale.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

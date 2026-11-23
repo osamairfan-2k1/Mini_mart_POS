@@ -16,7 +16,7 @@ export default function Settings() {
     const fetchProfile = async () => {
       try {
         const token = sessionStorage.getItem("token");
-        const res = await fetch("http://localhost/backend/me.php", {
+        const res = await fetch("https://martpos.infinityfree.me/backend/me.php", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -45,7 +45,7 @@ export default function Settings() {
     setSubmitting(true);
     try {
       const token = sessionStorage.getItem("token");
-      const res = await fetch("http://localhost/backend/changepassword.php", {
+      const res = await fetch("https://martpos.infinityfree.me/backend/changepassword.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

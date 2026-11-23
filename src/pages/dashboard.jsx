@@ -27,7 +27,7 @@ export default function Dashboard() {
   async function loadDashboard() {
     try {
       const token = sessionStorage.getItem("token");
-      const res = await fetch("http://localhost/backend/dashboard.php", {
+      const res = await fetch("https://martpos.infinityfree.me/backend/dashboard.php", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const json = await readJson(res);

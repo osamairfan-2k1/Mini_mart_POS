@@ -43,7 +43,7 @@ export default function Inventory() {
   async function fetchProducts() {
     try {
       const token = sessionStorage.getItem("token");
-      const res = await fetch("http://localhost/backend/getproducts.php", {
+      const res = await fetch("https://martpos.infinityfree.me/backend/getproducts.php", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await readJson(res);
@@ -122,7 +122,7 @@ export default function Inventory() {
 
     try {
       const token = sessionStorage.getItem("token");
-      const res = await fetch("http://localhost/backend/addproduct.php", {
+      const res = await fetch("https://martpos.infinityfree.me/backend/addproduct.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -170,7 +170,7 @@ export default function Inventory() {
 
     try {
       const token = sessionStorage.getItem("token");
-      const res = await fetch("http://localhost/backend/deleteproduct.php", {
+      const res = await fetch("https://martpos.infinityfree.me/backend/deleteproduct.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

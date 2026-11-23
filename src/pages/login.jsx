@@ -1,23 +1,28 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+// Public demo account. Create this user in the database (see the SQL insert).
+const DEMO = { email: "demo@minimart.com", password: "demo1234" };
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  // null | "form" | "demo" -> tells us which button should show "Signing in..."
+  const [loadingMode, setLoadingMode] = useState(null);
+  const loading = loadingMode !== null;
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Shared by the normal form and the demo button.
+  const doLogin = async (emailValue, passwordValue, mode) => {
     setError("");
-    setLoading(true);
+    setLoadingMode(mode);
 
     try {
-      const res = await fetch("http://localhost/backend/login.php", {
+      const res = await fetch("https://martpos.infinityfree.me/backend/login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: emailValue, password: passwordValue }),
       });
       const data = await res.json();
 
@@ -32,8 +37,20 @@ export default function Login() {
     } catch (err) {
       setError("Could not reach the server. Is the PHP server running?");
     } finally {
-      setLoading(false);
+      setLoadingMode(null);
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    doLogin(email, password, "form");
+  };
+
+  const handleDemo = () => {
+    // Fill the fields too, so the visitor sees what was used.
+    setEmail(DEMO.email);
+    setPassword(DEMO.password);
+    doLogin(DEMO.email, DEMO.password, "demo");
   };
 
   const inputClass =
@@ -101,12 +118,27 @@ export default function Login() {
             disabled={loading}
             className="w-full bg-emerald-600 text-white text-sm font-semibold py-2.5 rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-600/40 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed transition"
           >
-            {loading ? "Signing in..." : "Sign in"}
+            {loadingMode === "form" ? "Signing in..." : "Sign in"}
           </button>
         </form>
 
-    
-  
+        <div className="flex items-center gap-3 my-5" aria-hidden="true">
+          <div className="h-px flex-1 bg-gray-200" />
+          <span className="text-xs text-gray-500">or</span>
+          <div className="h-px flex-1 bg-gray-200" />
+        </div>
+
+        <button
+          type="button"
+          onClick={handleDemo}
+          disabled={loading}
+          className="w-full bg-white text-emerald-700 text-sm font-semibold py-2.5 border border-emerald-600 rounded-lg hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-600/40 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed transition"
+        >
+          {loadingMode === "demo" ? "Opening demo..." : "Try demo account"}
+        </button>
+        <p className="mt-2 text-center text-xs text-gray-500">
+          No signup needed. Explore the app with sample data.
+        </p>
       </div>
     </div>
   );
